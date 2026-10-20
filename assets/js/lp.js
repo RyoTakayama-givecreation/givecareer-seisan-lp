@@ -345,11 +345,22 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     ]
   };
-  var grid = document.getElementById("jobsGrid");
-  var tabs = document.querySelectorAll(".jobs-tabs button");
-  function renderJobs(key) {
-    grid.classList.toggle("is-secret", key === "secret");
-    grid.innerHTML = JOBS[key].map(function (j) {
+  /* ============ 求人スワイパー：公開求人の間に非公開求人を混ぜ、中央は非公開から表示 ============ */
+  var ALL = [].concat(JOBS.life, JOBS.skill, JOBS.dx);
+  function byCat(name) { return ALL.filter(function (j) { return j.cat === name; })[0]; }
+  var SEC = JOBS.secret;
+  var ORDER = [
+    byCat("椿本チエイン"), byCat("クボタ"), byCat("日立ハイテク"), SEC[0],
+    byCat("神戸製鋼所"), byCat("オムロン"), byCat("マキタ"), SEC[1],
+    byCat("ダイハツ工業"), byCat("積水化学工業"), byCat("IHI"), SEC[2],
+    byCat("ダイキン工業"), byCat("日本電子"), byCat("コニカミノルタ")
+  ].filter(Boolean);
+  var swiper = document.getElementById("jobsGrid");
+  var jobsPrev = document.getElementById("jobsPrev");
+  var jobsNext = document.getElementById("jobsNext");
+  var jobsCount = document.getElementById("jobsCount");
+  if (swiper) {
+    swiper.innerHTML = ORDER.map(function (j) {
       var head = j.logo
         ? '<div class="job-head"><span class="job-logo"><img src="' + j.logo + '" alt="' + j.cat + '" loading="lazy"></span><small>' + j.cat + '</small></div>'
         : '<div class="job-head"><span class="job-logo job-logo--lock" aria-hidden="true">非公開</span><small>' + j.cat + '</small></div>';
@@ -361,15 +372,64 @@ document.addEventListener("DOMContentLoaded", function () {
         + '<p>' + j.note + '</p>'
         + '</article>';
     }).join("");
-  }
-  tabs.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      tabs.forEach(function (b) { b.classList.remove("is-active"); });
-      btn.classList.add("is-active");
-      renderJobs(btn.dataset.tab);
+    var jobCards = Array.from(swiper.querySelectorAll(".job"));
+    var centerIdx = Math.floor(jobCards.length / 2);
+    var jobIdx = centerIdx;
+    function jobCenterLeft(i) {
+      var c = jobCards[i];
+      return c.offsetLeft - (swiper.clientWidth - c.offsetWidth) / 2;
+    }
+    function markActive() {
+      var mid = swiper.scrollLeft + swiper.clientWidth / 2, best = 0, bestD = 1e9;
+      jobCards.forEach(function (c, i) {
+        var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      jobIdx = best;
+      jobCards.forEach(function (c, i) { c.classList.toggle("is-active", i === best); });
+      if (jobsCount) jobsCount.innerHTML = '<b>' + String(best + 1).padStart(2, "0") + '</b> / ' + String(jobCards.length).padStart(2, "0");
+      if (jobsPrev) jobsPrev.disabled = best <= 0;
+      if (jobsNext) jobsNext.disabled = best >= jobCards.length - 1;
+    }
+    function goJob(i, instant) {
+      jobIdx = Math.min(jobCards.length - 1, Math.max(0, i));
+      swiper.scrollTo({ left: jobCenterLeft(jobIdx), behavior: instant || reduceMotion ? "auto" : "smooth" });
+    }
+    var jobTick = false;
+    swiper.addEventListener("scroll", function () {
+      if (jobTick) return;
+      jobTick = true;
+      requestAnimationFrame(function () { jobTick = false; markActive(); });
+    }, { passive: true });
+    if (jobsPrev) jobsPrev.addEventListener("click", function () { goJob(jobIdx - 1); });
+    if (jobsNext) jobsNext.addEventListener("click", function () { goJob(jobIdx + 1); });
+    jobCards.forEach(function (c, i) { c.addEventListener("click", function () { if (!dragMoved && i !== jobIdx) goJob(i); }); });
+    /* マウスドラッグ（タッチは標準スクロール） */
+    var dragging = false, dragMoved = false, dragX = 0, dragLeft = 0;
+    swiper.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      dragging = true; dragMoved = false; dragX = e.clientX; dragLeft = swiper.scrollLeft;
     });
-  });
-  if (grid) renderJobs("life");
+    addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - dragX;
+      if (Math.abs(dx) > 4 && !dragMoved) { dragMoved = true; swiper.classList.add("is-dragging"); }
+      if (dragMoved) swiper.scrollLeft = dragLeft - dx;
+    });
+    addEventListener("pointerup", function () {
+      if (!dragging) return;
+      dragging = false;
+      if (dragMoved) {
+        swiper.classList.remove("is-dragging");
+        goJob(jobIdx);
+        setTimeout(function () { dragMoved = false; }, 0);
+      }
+    });
+    var jobsInit = function () { goJob(centerIdx, true); markActive(); };
+    jobsInit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(jobsInit);
+    addEventListener("resize", function () { goJob(jobIdx, true); markActive(); }, { passive: true });
+  }
 
   /* ============ アドバイザー：手動カルーセル(矢印・ドット・スワイプ。自動送りなし) ============ */
   var advisersCarousel = document.querySelector(".advisers-grid");
