@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "PLC設計",
           "残業月10h程度"
         ],
-        "note": "休日出勤は大型設備の搬入時に年2〜3回程度。平日搬入が基本で、長期休暇中の出勤はほぼありません。"
+        "note": "休日出勤は大型設備の搬入時に年2〜3回程度。平日搬入が基本です。"
       },
       {
         "logo": "assets/img/jobs/10704.gif",
@@ -313,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "残業月15h以内",
           "在宅週2"
         ],
-        "note": "専門職として昇格できる評価制度。休日工事は事前計画と代休が原則で、突発対応は輪番制です。"
+        "note": "専門職として昇格できる評価制度。休日工事は代休が原則で、突発対応は輪番制です。"
       },
       {
         "logo": "",
@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "海外技術移管",
           "転勤なし"
         ],
-        "note": "PLC・ロボット・データ分析を研修から実機導入まで経験。国内に腰を据えて、海外拠点を技術面で支えます。"
+        "note": "PLC・ロボット・データ分析を研修から実機導入まで経験。海外拠点を技術面で支えます。"
       },
       {
         "logo": "",
@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "在宅週3",
           "社内公募あり"
         ],
-        "note": "解析・設計・資料作成は在宅、立上げ・現物確認は現場。改善提案を自分で実行できる裁量があります。"
+        "note": "解析・資料作成は在宅、立上げ・現物確認は現場。改善提案を自分で実行できる裁量あり。"
       }
     ]
   };
@@ -365,7 +365,7 @@ document.addEventListener("DOMContentLoaded", function () {
         + head
         + '<h3>' + j.role + '</h3>'
         + '<p class="salary"><span class="num">' + j.pay + '</span><span class="unit">万円</span><span class="job-loc">' + j.loc + '</span></p>'
-        + '<div class="job-tags">' + j.tags.slice(0, 3).map(function (t) { return "<span>" + t + "</span>"; }).join("") + '</div>'
+        + '<div class="job-tags">' + j.tags.slice(0, 2).map(function (t) { return "<span>" + t + "</span>"; }).join("") + '</div>'
         + '<p>' + j.note + '</p>'
         + '</article>';
     }).join("");
