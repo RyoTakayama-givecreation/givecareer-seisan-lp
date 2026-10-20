@@ -365,7 +365,7 @@ document.addEventListener("DOMContentLoaded", function () {
         + head
         + '<h3>' + j.role + '</h3>'
         + '<p class="salary"><span class="num">' + j.pay + '</span><span class="unit">万円</span><span class="job-loc">' + j.loc + '</span></p>'
-        + '<div class="job-tags">' + j.tags.map(function (t) { return "<span>" + t + "</span>"; }).join("") + '</div>'
+        + '<div class="job-tags">' + j.tags.slice(0, 3).map(function (t) { return "<span>" + t + "</span>"; }).join("") + '</div>'
         + '<p>' + j.note + '</p>'
         + '</article>';
     }).join("");
@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
         manual = false;
       }
       if (!manual && !reduceMotion && document.visibilityState === "visible" && loopWidth) {
-        autoPosition += elapsed * .03;
+        autoPosition += elapsed * .06;
         autoPosition -= loopShift(autoPosition);
         writePosition(autoPosition);
       }
