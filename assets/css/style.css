@@ -990,39 +990,21 @@
     .lp-white01 .job--secret .job-tags span { background: #fbf3dc; color: var(--gold-deep); }
     .lp-white01 .jobs-tabs button.is-secret { color: var(--gold-deep); }
 
-    /* ============ 求人スワイパー ============ */
+    /* ============ 求人スライダー（自動ループ＋手動） ============ */
     .lp-white01 .jobs .section-inner { width: min(1280px, 100%); }
-    .lp-white01 .gold-text { color: var(--gold-deep); font-weight: 700; }
-    .lp-white01 .jobs-swiper-wrap { position: relative; }
-    .lp-white01 .jobs-swiper {
-      display: flex; gap: 18px; align-items: stretch;
-      overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-      margin-inline: calc(50% - 50vw); padding: 18px calc(50vw - 170px) 26px;
-      scrollbar-width: none; cursor: grab;
-    }
-    .lp-white01 .jobs-swiper::-webkit-scrollbar { display: none; }
-    .lp-white01 .jobs-swiper.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
-    .lp-white01 .jobs-swiper .job {
-      flex: 0 0 340px; scroll-snap-align: center;
-      transform: scale(.94); opacity: .62;
-      transition: transform .35s ease, opacity .35s ease, box-shadow .35s ease;
-    }
-    .lp-white01 .jobs-swiper .job.is-active { transform: scale(1); opacity: 1; box-shadow: 0 18px 40px rgba(7, 28, 54, .14); }
-    .lp-white01 .jobs-swiper .job--secret.is-active { box-shadow: 0 18px 44px rgba(169, 121, 36, .26); }
-    .lp-white01 .jobs-arrow {
-      position: absolute; top: calc(50% - 22px); z-index: 3;
-      width: 44px; height: 44px; border-radius: 50%;
-      border: 1px solid var(--line); background: #fff; color: var(--navy);
-      font-size: 18px; box-shadow: var(--shadow-card); cursor: pointer;
-    }
-    .lp-white01 .jobs-arrow:disabled { opacity: .35; cursor: default; }
-    .lp-white01 .jobs-arrow-prev { left: max(8px, calc(50% - 560px)); }
-    .lp-white01 .jobs-arrow-next { right: max(8px, calc(50% - 560px)); }
-    .lp-white01 .jobs-count { margin: 4px 0 0; text-align: center; color: var(--faint); font-family: var(--num); font-size: 13px; letter-spacing: .1em; }
-    .lp-white01 .jobs-count b { color: var(--navy); font-size: 18px; }
-    @media (max-width: 720px) {
-      .lp-white01 .jobs-swiper { gap: 12px; padding: 14px 9vw 22px; }
-      .lp-white01 .jobs-swiper .job { flex-basis: 82vw; }
-      .lp-white01 .jobs-arrow { display: none; }
-    }
     .lp-white01 .section.jobs { overflow-x: clip; }
+    .lp-white01 .gold-text { color: var(--gold-deep); font-weight: 700; }
+    .lp-white01 .jobs-swiper-wrap { width: 100vw; margin-left: calc(50% - 50vw); position: relative; }
+    .lp-white01 .jobs-swiper {
+      display: flex; gap: 14px; align-items: stretch;
+      overflow-x: auto; padding: 3px 2px 13px;
+      scrollbar-width: none; cursor: grab; overscroll-behavior-inline: contain;
+    }
+    .lp-white01 .jobs-swiper:active { cursor: grabbing; }
+    .lp-white01 .jobs-swiper::-webkit-scrollbar { display: none; }
+    .lp-white01 .jobs-swiper .job { flex: 0 0 clamp(250px, 22vw, 300px); min-width: 0; padding: 20px 20px 18px; box-shadow: none; user-select: none; }
+    .lp-white01 .jobs-swiper .job--secret { box-shadow: none; }
+    @media (max-width: 720px) {
+      .lp-white01 .jobs-swiper { gap: 10px; }
+      .lp-white01 .jobs-swiper .job { flex-basis: 72%; padding: 17px 17px 15px; }
+    }

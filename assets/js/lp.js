@@ -355,12 +355,9 @@ document.addEventListener("DOMContentLoaded", function () {
     byCat("ダイハツ工業"), byCat("積水化学工業"), byCat("IHI"), SEC[2],
     byCat("ダイキン工業"), byCat("日本電子"), byCat("コニカミノルタ")
   ].filter(Boolean);
-  var swiper = document.getElementById("jobsGrid");
-  var jobsPrev = document.getElementById("jobsPrev");
-  var jobsNext = document.getElementById("jobsNext");
-  var jobsCount = document.getElementById("jobsCount");
-  if (swiper) {
-    swiper.innerHTML = ORDER.map(function (j) {
+  var slider = document.getElementById("jobsGrid");
+  if (slider) {
+    slider.innerHTML = ORDER.map(function (j) {
       var head = j.logo
         ? '<div class="job-head"><span class="job-logo"><img src="' + j.logo + '" alt="' + j.cat + '" loading="lazy"></span><small>' + j.cat + '</small></div>'
         : '<div class="job-head"><span class="job-logo job-logo--lock" aria-hidden="true">非公開</span><small>' + j.cat + '</small></div>';
@@ -372,63 +369,102 @@ document.addEventListener("DOMContentLoaded", function () {
         + '<p>' + j.note + '</p>'
         + '</article>';
     }).join("");
-    var jobCards = Array.from(swiper.querySelectorAll(".job"));
-    var centerIdx = Math.floor(jobCards.length / 2);
-    var jobIdx = centerIdx;
-    function jobCenterLeft(i) {
-      var c = jobCards[i];
-      return c.offsetLeft - (swiper.clientWidth - c.offsetWidth) / 2;
-    }
-    function markActive() {
-      var mid = swiper.scrollLeft + swiper.clientWidth / 2, best = 0, bestD = 1e9;
-      jobCards.forEach(function (c, i) {
-        var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
-        if (d < bestD) { bestD = d; best = i; }
+
+    /* 自動で流れ、手のスワイプ／ドラッグでも動かせる無限ループ。
+       同じカード一式を前後に複製し、1周分ずれた位置へ巻き戻して継ぎ目を消す。 */
+    var originalCards = Array.from(slider.querySelectorAll(".job"));
+    var BUFFER_SETS = 3;
+    var cloneSet = function () {
+      var set = document.createDocumentFragment();
+      originalCards.forEach(function (card) {
+        var copy = card.cloneNode(true);
+        copy.setAttribute("aria-hidden", "true");
+        set.appendChild(copy);
       });
-      jobIdx = best;
-      jobCards.forEach(function (c, i) { c.classList.toggle("is-active", i === best); });
-      if (jobsCount) jobsCount.innerHTML = '<b>' + String(best + 1).padStart(2, "0") + '</b> / ' + String(jobCards.length).padStart(2, "0");
-      if (jobsPrev) jobsPrev.disabled = best <= 0;
-      if (jobsNext) jobsNext.disabled = best >= jobCards.length - 1;
+      return set;
+    };
+    for (var b = 0; b < BUFFER_SETS; b++) {
+      slider.insertBefore(cloneSet(), slider.firstChild);
+      slider.appendChild(cloneSet());
     }
-    function goJob(i, instant) {
-      jobIdx = Math.min(jobCards.length - 1, Math.max(0, i));
-      swiper.scrollTo({ left: jobCenterLeft(jobIdx), behavior: instant || reduceMotion ? "auto" : "smooth" });
-    }
-    var jobTick = false;
-    swiper.addEventListener("scroll", function () {
-      if (jobTick) return;
-      jobTick = true;
-      requestAnimationFrame(function () { jobTick = false; markActive(); });
-    }, { passive: true });
-    if (jobsPrev) jobsPrev.addEventListener("click", function () { goJob(jobIdx - 1); });
-    if (jobsNext) jobsNext.addEventListener("click", function () { goJob(jobIdx + 1); });
-    jobCards.forEach(function (c, i) { c.addEventListener("click", function () { if (!dragMoved && i !== jobIdx) goJob(i); }); });
-    /* マウスドラッグ（タッチは標準スクロール） */
-    var dragging = false, dragMoved = false, dragX = 0, dragLeft = 0;
-    swiper.addEventListener("pointerdown", function (e) {
-      if (e.pointerType !== "mouse") return;
-      dragging = true; dragMoved = false; dragX = e.clientX; dragLeft = swiper.scrollLeft;
-    });
-    addEventListener("pointermove", function (e) {
-      if (!dragging) return;
-      var dx = e.clientX - dragX;
-      if (Math.abs(dx) > 4 && !dragMoved) { dragMoved = true; swiper.classList.add("is-dragging"); }
-      if (dragMoved) swiper.scrollLeft = dragLeft - dx;
-    });
-    addEventListener("pointerup", function () {
-      if (!dragging) return;
-      dragging = false;
-      if (dragMoved) {
-        swiper.classList.remove("is-dragging");
-        goJob(jobIdx);
-        setTimeout(function () { dragMoved = false; }, 0);
+    var ensureTrailingCopies = function (base, width) {
+      var added = false;
+      for (var n = 0; n < 10 && slider.scrollWidth - slider.clientWidth < base * 2 + width; n++) {
+        slider.appendChild(cloneSet());
+        added = true;
       }
+      return added;
+    };
+    var loopBase = 0, loopWidth = 0, autoPosition = 0, previousTime = 0, lastWritten = 0;
+    var manual = false, lastInteraction = 0, touching = false, mouseId = null, dragStartX = 0, dragStartScroll = 0;
+    var writePosition = function (pos) { slider.scrollLeft = pos; lastWritten = slider.scrollLeft; };
+    var loopShift = function (pos) { return Math.floor((pos - loopBase) / loopWidth) * loopWidth; };
+    var measureSlider = function () {
+      var base = originalCards[0].getBoundingClientRect().left - slider.firstElementChild.getBoundingClientRect().left;
+      if (!base) return;
+      ensureTrailingCopies(base, base / BUFFER_SETS);
+      if (Math.abs(base - loopBase) < .5) return;
+      var phase = loopWidth ? ((slider.scrollLeft % loopWidth) + loopWidth) % loopWidth / loopWidth : 0;
+      loopBase = base;
+      loopWidth = base / BUFFER_SETS;
+      autoPosition = loopBase + loopWidth * phase;
+      writePosition(autoPosition);
+    };
+    var beginInteraction = function () { manual = true; lastInteraction = performance.now(); };
+    var moveSlider = function (now) {
+      var elapsed = Math.min(now - previousTime, 40);
+      previousTime = now;
+      if (manual && !touching && mouseId === null && now - lastInteraction >= 100) {
+        autoPosition = slider.scrollLeft;
+        manual = false;
+      }
+      if (!manual && !reduceMotion && document.visibilityState === "visible" && loopWidth) {
+        autoPosition += elapsed * .03;
+        autoPosition -= loopShift(autoPosition);
+        writePosition(autoPosition);
+      }
+      requestAnimationFrame(moveSlider);
+    };
+    slider.addEventListener("scroll", function () {
+      if (manual || Math.abs(slider.scrollLeft - lastWritten) > 1) beginInteraction();
+    }, { passive: true });
+    slider.addEventListener("touchstart", function () { touching = true; beginInteraction(); }, { passive: true });
+    var endTouch = function (e) { touching = e.touches.length > 0; beginInteraction(); };
+    slider.addEventListener("touchend", endTouch, { passive: true });
+    slider.addEventListener("touchcancel", endTouch, { passive: true });
+    slider.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      mouseId = e.pointerId; dragStartX = e.clientX; dragStartScroll = slider.scrollLeft;
+      beginInteraction();
+      slider.setPointerCapture(e.pointerId);
     });
-    var jobsInit = function () { goJob(centerIdx, true); markActive(); };
-    jobsInit();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(jobsInit);
-    addEventListener("resize", function () { goJob(jobIdx, true); markActive(); }, { passive: true });
+    slider.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse" || e.pointerId !== mouseId) return;
+      beginInteraction();
+      var pos = dragStartScroll - (e.clientX - dragStartX);
+      if (loopWidth) { var shift = loopShift(pos); pos -= shift; dragStartScroll -= shift; }
+      slider.scrollLeft = pos;
+    });
+    var endMouse = function (e) { if (e.pointerId !== mouseId) return; mouseId = null; beginInteraction(); };
+    slider.addEventListener("pointerup", endMouse);
+    slider.addEventListener("pointercancel", endMouse);
+    slider.addEventListener("lostpointercapture", endMouse);
+    slider.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    slider.addEventListener("wheel", beginInteraction, { passive: true });
+    slider.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      beginInteraction();
+      var shift = loopWidth ? loopShift(slider.scrollLeft) : 0;
+      if (shift) slider.scrollLeft -= shift;
+      slider.scrollBy({ left: (e.key === "ArrowRight" ? 1 : -1) * slider.clientWidth * .7, behavior: "smooth" });
+    });
+    requestAnimationFrame(function (now) {
+      measureSlider();
+      previousTime = now;
+      requestAnimationFrame(moveSlider);
+    });
+    addEventListener("resize", measureSlider);
   }
 
   /* ============ アドバイザー：手動カルーセル(矢印・ドット・スワイプ。自動送りなし) ============ */
