@@ -157,8 +157,8 @@
       background: radial-gradient(circle at 42% 38%, rgba(255,255,255,.94), rgba(30,161,228,.18) 54%, rgba(86,52,181,.06) 72%, transparent 73%);
     }
     .lp-white01 .hero-person {
-      position: absolute; right: -165px; bottom: -42px;
-      width: min(960px, 70vw); max-width: none;
+      position: absolute; right: -185px; bottom: -70px;
+      width: min(1056px, 77vw); max-width: none;
       filter: drop-shadow(0 24px 32px rgba(7, 28, 54, .18));
     }
 
@@ -1014,7 +1014,7 @@
       .lp-white01 .jobs-swiper .job { flex-basis: 72%; padding: 17px 17px 15px; }
     }
 
-    /* ============ スマホFV：写真→見出し→CTA→実績の縦並び ============ */
+    /* ============ スマホFV：人物に見出しを重ね、実績・CTAを上に集約 ============ */
     .lp-white01 .hero-head-cta, .lp-white01 .lead-sp { display: none; }
     @media (max-width: 720px) {
       .lp-white01 .hero { min-height: 0; display: block; }
@@ -1025,16 +1025,16 @@
       .lp-white01 .hero-head-cta { display: inline-flex; min-height: 38px; padding: 6px 18px; font-size: 13px; }
       .lp-white01 .hero-kicker { flex: 0 0 100%; margin: 0; font-size: 11.5px; letter-spacing: .12em; }
       .lp-white01 .hero-visual, .lp-white01 .hero-visual.rev.is-visible {
-        order: 2; position: relative; inset: auto; opacity: 1; flex: 0 0 376px; width: calc(100% + 40px); height: 376px; margin: 4px -20px 0; overflow: hidden;
+        order: 2; position: relative; inset: auto; opacity: 1; flex: 0 0 510px; width: calc(100% + 40px); height: 510px; margin: 4px -20px 0; overflow: hidden;
         -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%); mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
       }
       .lp-white01 .hero-visual::before { display: none; }
       .lp-white01 .hero-visual::after { display: none; }
-      .lp-white01 .hero-person { right: auto; left: 50%; bottom: auto; top: -6px; left: 50%; width: 580px; margin-left: -285px; filter: none; }
+      .lp-white01 .hero-person { right: auto; left: 50%; bottom: auto; top: 0; width: 780px; margin-left: -385px; filter: none; }
       .lp-white01 .hero-message { display: contents; }
-      .lp-white01 .hero h1 { order: 3; position: relative; z-index: 2; width: 100%; margin: -72px 0 12px; }
-      .lp-white01 .hero-cta { order: 5; width: 100%; }
-      .lp-white01 .hero h1 { text-shadow: none; }
+      .lp-white01 .hero h1 { order: 3; position: relative; z-index: 2; width: 100%; margin: -314px 0 12px; }
+      .lp-white01 .hero-cta { order: 5; position: relative; z-index: 3; width: 100%; }
+      .lp-white01 .hero h1 { text-shadow: 0 1px 3px #fff, 0 0 14px rgba(255,255,255,.95); }
       .lp-white01 .hero h1 .hero-h1-big { font-size: 1.24em; }
       .lp-white01 .hero-lead { max-width: none; font-size: 13px; line-height: 1.85; text-shadow: none; }
       .lp-white01 .hero-lead { display: none; }
