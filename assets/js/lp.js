@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "休日出勤は大型設備の搬入時に年2〜3回程度。平日搬入が基本です。"
       },
       {
-        "logo": "assets/img/jobs/10704.gif",
+        "logo": "assets/img/jobs/10704.png",
         "cat": "クボタ",
         "role": "新ライン向け設備の生産技術開発",
         "loc": "兵庫",
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "1案件2〜4名のチームで担当。祝日工事には代休を取得できます。"
       },
       {
-        "logo": "assets/img/jobs/11151.jpeg",
+        "logo": "assets/img/jobs/11151.png",
         "cat": "マキタ",
         "role": "組立工程設計・電気制御設計",
         "loc": "愛知",
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "国内主力工場と海外工場の生産性・品質に、構想から成果まで一貫して関われます。"
       },
       {
-        "logo": "assets/img/jobs/10730.jpeg",
+        "logo": "assets/img/jobs/10730.png",
         "cat": "ダイハツ工業",
         "role": "次世代車両の工法開発（接合・プレス）",
         "loc": "大阪",
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "残業は月20〜30時間。軽量化に向けた上流の工法開発に挑戦できます。"
       },
       {
-        "logo": "assets/img/jobs/11255.jpeg",
+        "logo": "assets/img/jobs/11255.png",
         "cat": "小糸製作所",
         "role": "生産技術",
         "loc": "静岡",
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ],
     "skill": [
       {
-        "logo": "assets/img/jobs/11365.jpeg",
+        "logo": "assets/img/jobs/11365.png",
         "cat": "神戸製鋼所",
         "role": "生産技術開発・プロセス改善",
         "loc": "兵庫",
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "要素技術・生産改善・生産開発・海外拠点などのキャリア例を提示しています。"
       },
       {
-        "logo": "assets/img/jobs/11174.jpeg",
+        "logo": "assets/img/jobs/11174.png",
         "cat": "住友電装",
         "role": "自動車用端子の製造設備・金型開発",
         "loc": "三重",
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "設備・金型の開発を担当。生産技術や設備保全の経験は歓迎されます。"
       },
       {
-        "logo": "assets/img/jobs/11177.jpeg",
+        "logo": "assets/img/jobs/11177.png",
         "cat": "IHI",
         "role": "航空・ロケットエンジン部品の特殊工程開発",
         "loc": "神奈川",
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "電気・ソフト・機構を融合した治具や自動化、データ活用で検査品質と効率を高めます。"
       },
       {
-        "logo": "assets/img/jobs/11496.jpeg",
+        "logo": "assets/img/jobs/11496.png",
         "cat": "MARUWA",
         "role": "設備技術（改善・保守・新規導入）",
         "loc": "岐阜",
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ],
     "dx": [
       {
-        "logo": "assets/img/jobs/10885.jpeg",
+        "logo": "assets/img/jobs/10885.png",
         "cat": "オムロン",
         "role": "製造DXのソリューションアーキテクト",
         "loc": "京都/東京",
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "生産技術・工場SEの経験を、他社にも提供する製造DXソリューションへ活かせます。"
       },
       {
-        "logo": "assets/img/jobs/11289.jpeg",
+        "logo": "assets/img/jobs/11289.png",
         "cat": "日立ハイテク",
         "role": "生産技術DXエンジニア（ロボット）",
         "loc": "東京/茨城",
@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "生産ライン・レイアウト設計に、データ活用を掛け合わせます。階層別・グローバル研修あり。"
       },
       {
-        "logo": "assets/img/jobs/11138.jpeg",
+        "logo": "assets/img/jobs/11138.png",
         "cat": "コニカミノルタ",
         "role": "化学プロセスの自動化・安全を支える生産技術",
         "loc": "東京",

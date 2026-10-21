@@ -978,12 +978,11 @@
     .lp-white01 .job-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
     .lp-white01 .job-head small { margin: 0; line-height: 1.5; }
     .lp-white01 .job-logo {
-      flex: 0 0 64px; width: 64px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      border: 1px solid var(--line); border-radius: 6px; background: #fff; overflow: hidden;
+      flex: 0 0 92px; width: 92px; height: 36px;
+      display: flex; align-items: center; justify-content: flex-start;
     }
-    .lp-white01 .job-logo img { max-width: 90%; max-height: 90%; width: auto; height: auto; object-fit: contain; }
-    .lp-white01 .job-logo--lock { border-color: transparent; background: linear-gradient(135deg, #f4d77c, var(--gold) 55%, #d9a43a); color: #5a3d06; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+    .lp-white01 .job-logo img { width: 100%; height: 100%; object-fit: contain; object-position: left center; mix-blend-mode: multiply; }
+    .lp-white01 .job-logo--lock { justify-content: center; height: 28px; flex-basis: 56px; width: 56px; border-radius: 5px; background: linear-gradient(135deg, #f4d77c, var(--gold) 55%, #d9a43a); color: #5a3d06; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
     .lp-white01 .job .salary .job-loc { margin-left: 12px; padding: 2px 8px; border-radius: 4px; background: #f1f4f8; color: var(--muted); font-size: 11px; font-weight: 600; }
     .lp-white01 .job--secret { border-color: rgba(169, 121, 36, .45); background: linear-gradient(180deg, #fffdf6, #fff 60%); }
     .lp-white01 .job--secret small { color: var(--gold-deep); }
