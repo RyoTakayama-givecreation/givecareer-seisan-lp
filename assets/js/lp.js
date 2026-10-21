@@ -2,6 +2,36 @@ document.addEventListener("DOMContentLoaded", function () {
   "use strict";
   var reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ============ FAQ：開閉の高さをアニメーション ============ */
+  document.querySelectorAll(".faq details").forEach(function (details) {
+    var summary = details.querySelector("summary");
+    var answer = details.querySelector(".a");
+    var animation = null;
+    var expanded = details.open;
+    summary.addEventListener("click", function (event) {
+      if (reduceMotion || !details.animate) return;
+      event.preventDefault();
+      var startHeight = details.getBoundingClientRect().height;
+      if (animation) animation.cancel();
+      expanded = !expanded;
+      details.open = true;
+      details.classList.toggle("is-closing", !expanded);
+      var endHeight = expanded ? details.getBoundingClientRect().height :
+        details.getBoundingClientRect().height - answer.getBoundingClientRect().height;
+      details.style.overflow = "hidden";
+      animation = details.animate([
+        { height: startHeight + "px" },
+        { height: endHeight + "px" }
+      ], { duration: 300, easing: "cubic-bezier(.22, 1, .36, 1)" });
+      animation.onfinish = function () {
+        details.open = expanded;
+        details.classList.remove("is-closing");
+        details.style.overflow = "";
+        animation = null;
+      };
+    });
+  });
+
   /* ============ 出現アニメーション ============ */
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {

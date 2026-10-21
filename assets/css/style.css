@@ -630,7 +630,7 @@
     .lp-white01 .faq summary::-webkit-details-marker { display: none; }
     .lp-white01 .faq summary .q { font-family: var(--num); font-weight: 800; color: var(--sky); font-size: 17px; }
     .lp-white01 .faq summary .plus { color: var(--blue); font-size: 21px; font-weight: 400; transition: transform .25s ease; }
-    .lp-white01 .faq details[open] summary .plus { transform: rotate(45deg); }
+    .lp-white01 .faq details[open]:not(.is-closing) summary .plus { transform: rotate(45deg); }
     .lp-white01 .faq .a { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 0 6px 24px; }
     .lp-white01 .faq .a .mark-a { font-family: var(--num); font-weight: 800; color: var(--orange); font-size: 17px; line-height: 1.6; }
     .lp-white01 .faq .a p { margin: 0; color: var(--muted); font-size: 13.5px; }
