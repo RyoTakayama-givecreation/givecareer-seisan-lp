@@ -95,13 +95,11 @@
       position: relative;
       display: flex; align-items: center;
       min-height: clamp(540px, 46vw, 640px);
-      background:
-        radial-gradient(620px 340px at 82% 18%, rgba(30, 161, 228, .12), transparent 68%),
-        radial-gradient(520px 320px at 12% 88%, rgba(86, 52, 181, .09), transparent 70%),
-        linear-gradient(180deg, #f3f5fb 0%, #eef4f9 100%);
+      background: #eef7ff url("../img/hero/fv.png") center / cover no-repeat;
       overflow: hidden;
     }
     .lp-white01 .hero-grid {
+      display: none;
       position: absolute; inset: 0; opacity: .4; pointer-events: none;
       background-image:
         linear-gradient(rgba(16, 43, 82, .05) 1px, transparent 1px),
@@ -1026,7 +1024,6 @@
       .lp-white01 .hero-kicker { flex: 0 0 100%; margin: 0; font-size: 11.5px; letter-spacing: .12em; }
       .lp-white01 .hero-visual, .lp-white01 .hero-visual.rev.is-visible {
         order: 2; position: relative; inset: auto; opacity: 1; flex: 0 0 510px; width: calc(100% + 40px); height: 510px; margin: 4px -20px 0; overflow: hidden;
-        -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%); mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
       }
       .lp-white01 .hero-visual::before { display: none; }
       .lp-white01 .hero-visual::after { display: none; }
@@ -1418,7 +1415,7 @@
     /* スマホ: 技術領域チップ(スマートファクトリー等)をリード文とCTAボタンの間に表示 */
     @media (max-width: 720px) {
       .lp-white01 .hero-expertise { order: 3; position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 4px; width: 100%; margin-top: 8px; }
-      .lp-white01 .hero-expertise > span { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 4px 5px; border-radius: 6px; background: rgba(224, 240, 255, .94); color: #245c99; font-size: 9.5px; font-weight: 700; line-height: 1.25; }
+      .lp-white01 .hero-expertise > span { flex: 1 1 auto; display: flex; align-items: center; justify-content: flex-start; gap: 4px; padding: 4px 5px; border-radius: 6px; background: rgba(224, 240, 255, .94); color: #245c99; font-size: 9.5px; font-weight: 700; line-height: 1.25; }
       .lp-white01 .hero-expertise svg { flex: 0 0 14px; width: 14px; height: 14px; color: #008cff; }
     }
 
@@ -1606,11 +1603,10 @@
       .lp-white01 .award-rank-num .num { font-size: 18px; }
     }
 
-    /* スマホ: 技術領域チップを3+2の2段で幅いっぱいに(1個だけ横長になるのを防ぐ) */
+    /* スマホ: 技術領域チップは内容幅で左詰め */
     @media (max-width: 720px) {
-      .lp-white01 .hero-expertise { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
-      .lp-white01 .hero-expertise > span { grid-column: span 2; min-width: 0; }
-      .lp-white01 .hero-expertise > span:nth-child(n+4) { grid-column: span 3; }
+      .lp-white01 .hero-expertise { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 4px; }
+      .lp-white01 .hero-expertise > span { flex: 0 0 auto; width: auto; min-width: 0; justify-content: flex-start; }
     }
 
     /* 受賞セクション: 実績の数字カード3つ */
@@ -2336,3 +2332,67 @@
     .lp-white01 .footer-brand .footer-logo { flex: 0 0 auto; margin: 0; }
     .lp-white01 .footer-brand .footer-company { margin: 0; text-align: left; }
     .lp-white01 .footer-brand .footer-company span { white-space: nowrap; }
+
+    /* ============ FV 右側の提供価値（PCのみ） ============ */
+    .lp-white01 .hero-values { display: none; }
+    @media (min-width: 1081px) {
+      .lp-white01 .hero-values {
+        display: grid; gap: 12px; list-style: none; margin: 0; padding: 0;
+        position: absolute; z-index: 4; top: 205px; right: calc(32px - max(0px, 50vw - 640px)); width: min(320px, 24vw);
+      }
+      .lp-white01 .hero-values li {
+        position: relative; display: grid; grid-template-columns: 52px 1fr; gap: 12px; align-items: center;
+        padding: 14px 16px 14px 12px; border-radius: 10px;
+        background: rgba(255, 255, 255, .92); box-shadow: 0 10px 28px rgba(14, 54, 104, .14);
+        backdrop-filter: blur(6px);
+      }
+      .lp-white01 .hero-value-icon { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #eef4fb; color: var(--blue); }
+      .lp-white01 .hero-value-icon svg { width: 26px; height: 26px; }
+      .lp-white01 .hero-value-check {
+        position: absolute; right: -2px; top: -2px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #1769b0;
+      }
+      .lp-white01 .hero-value-check::after { content: ""; position: absolute; left: 6px; top: 3px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+      .lp-white01 .hero-values h3 { margin: 0 0 4px; color: var(--navy); font-size: 14.5px; font-weight: 700; line-height: 1.4; }
+      .lp-white01 .hero-values p { margin: 0; color: #3a4d68; font-size: 11.5px; line-height: 1.7; letter-spacing: .02em; }
+    }
+
+    @media (max-width: 720px) {
+      .lp-white01 .hero-expertise::before { content: ""; order: 1; flex-basis: 100%; height: 0; }
+      .lp-white01 .hero-expertise > span { order: 0; }
+      .lp-white01 .hero-expertise > span:nth-child(n+4) { order: 2; }
+    }
+
+    @media (min-width: 1081px) {
+      .lp-white01 .hero-value-check { color: #fff; box-shadow: 0 0 0 2px #fff; }
+      .lp-white01 .hero-value-check::after { content: none; }
+      .lp-white01 .hero-value-check svg { width: 13px; height: 13px; }
+    }
+
+    @media (max-width: 720px) {
+      .lp-white01 .hero { background-position: 85% center; }
+    }
+
+    /* ============ FV バッジ：スマホもPCと同じ月桂冠4つ・同じ注記 ============ */
+    @media (max-width: 980px) {
+      .lp-white01 .hero-award-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: 100%; }
+      .lp-white01 .hero-award img { filter: drop-shadow(.8px 0 0 #fff) drop-shadow(-.8px 0 0 #fff) drop-shadow(0 .8px 0 #fff) drop-shadow(0 -.8px 0 #fff); }
+      .lp-white01 .hero-awards-sp-stack { display: none; }
+      .lp-white01 .hero-award-note-pc { display: inline; }
+      .lp-white01 .hero-award-note-sp { display: none; }
+      .lp-white01 .hero-award-note { text-align: left; font-size: 9px; letter-spacing: 0; line-height: 1.6; color: #2c3e57; text-shadow: .6px 0 0 #fff, -.6px 0 0 #fff, 0 .6px 0 #fff, 0 -.6px 0 #fff; }
+    }
+
+    @media (max-width: 720px) {
+      .lp-white01 .hero-person { width: 600px; height: auto; margin-left: -175px; top: 32px; }
+    }
+
+    /* ============ スマホFV：全身画像を FV の下まで表示（頭のサイズは従来どおり） ============ */
+    @media (max-width: 720px) {
+      .lp-white01 .hero-visual, .lp-white01 .hero-visual.rev.is-visible { overflow: visible; }
+      .lp-white01 .hero-visual .hero-person { width: 620px; height: auto; margin-left: -178px; top: 32px; }
+    }
+
+    @media (max-width: 720px) {
+      .lp-white01 .hero-assurances { text-shadow: .8px 0 0 #fff, -.8px 0 0 #fff, 0 .8px 0 #fff, 0 -.8px 0 #fff, .6px .6px 0 #fff, -.6px -.6px 0 #fff, .6px -.6px 0 #fff, -.6px .6px 0 #fff; }
+      .lp-white01 .hero-assurances svg { filter: drop-shadow(.8px 0 0 #fff) drop-shadow(-.8px 0 0 #fff) drop-shadow(0 .8px 0 #fff) drop-shadow(0 -.8px 0 #fff); }
+    }
