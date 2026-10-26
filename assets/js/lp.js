@@ -44,68 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
   /* FVはロード直後に必ず表示 */
   document.querySelectorAll(".hero .rev, .hero .mark").forEach(function (el) { el.classList.add("is-visible"); });
 
-  /* ============ スマホ：理由カードは自然な高さのまま、下に重なったカードからはみ出す部分だけクリップ ============ */
-  var reasonCards = [
-    document.getElementById("reason-1"),
-    document.getElementById("reason-2"),
-    document.getElementById("reason-3")
-  ];
-  if (!reasonCards.some(function (card) { return !card; })) {
-    var reasonEndMargin = 92;
-    var reasonPeek = 24;
-    var reasonsListEl = document.querySelector(".reasons-list");
-    var syncReasonStackLayout = function () {
-      if (innerWidth > 720) {
-        reasonCards.forEach(function (card) { card.style.marginBottom = ""; });
-        if (reasonsListEl) reasonsListEl.style.marginBottom = "";
-        return;
-      }
-      var heights = reasonCards.map(function (card) { return card.getBoundingClientRect().height; });
-      var last = heights.length - 1;
-      var endMargin = reasonEndMargin;
-      heights.forEach(function (h, i) {
-        endMargin = Math.max(endMargin, 24 + h - heights[last] - reasonPeek * (last - i));
-      });
-      endMargin = Math.round(endMargin);
-      reasonCards.forEach(function (card, i) {
-        var margin = Math.round(endMargin + reasonPeek * (last - i) + heights[last] - heights[i]);
-        card.style.marginBottom = margin + "px";
-      });
-      if (reasonsListEl) reasonsListEl.style.marginBottom = -endMargin + "px";
-    };
-    var updateReasonStack = function () {
-      if (innerWidth > 720) {
-        reasonCards.forEach(function (card) { card.style.clipPath = ""; });
-        return;
-      }
-      var rects = reasonCards.map(function (card) { return card.getBoundingClientRect(); });
-      reasonCards.forEach(function (card, i) {
-        var visibleBottom = rects[i].bottom;
-        for (var j = i + 1; j < rects.length; j++) {
-          var safeBottom = rects[j].bottom - 48;
-          if (rects[j].top < visibleBottom && safeBottom < visibleBottom) {
-            visibleBottom = safeBottom;
-          }
-        }
-        var cut = rects[i].bottom - visibleBottom;
-        card.style.clipPath = cut > 0.5 ? "inset(0 0 " + Math.ceil(cut) + "px 0)" : "";
-      });
-    };
-    syncReasonStackLayout();
-    updateReasonStack();
-    addEventListener("scroll", updateReasonStack, { passive: true });
-    addEventListener("resize", function () {
-      syncReasonStackLayout();
-      updateReasonStack();
-    }, { passive: true });
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(function () {
-        syncReasonStackLayout();
-        updateReasonStack();
-      });
-    }
-  }
-
   /* ============ 理由セクション：現在地＋進捗 ============ */
   var spyLinks = document.querySelectorAll("[data-spy]");
   if (spyLinks.length) {
@@ -132,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var JOBS = {
     "life": [
       {
-        "logo": "assets/img/jobs/10656.png",
+        "logo": "assets/img/jobs/job-10656.png",
         "cat": "椿本チエイン",
         "role": "自動化・省人化設備の電気制御設計",
         "loc": "京都",
@@ -145,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "休日出勤は大型設備の搬入時に年2〜3回程度。平日搬入が基本です。"
       },
       {
-        "logo": "assets/img/jobs/10704.png",
+        "logo": "assets/img/jobs/job-10704.png",
         "cat": "クボタ",
         "role": "新ライン向け設備の生産技術開発",
         "loc": "兵庫",
@@ -158,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "1案件2〜4名のチームで担当。祝日工事には代休を取得できます。"
       },
       {
-        "logo": "assets/img/jobs/11151.png",
+        "logo": "assets/img/jobs/job-11151.png",
         "cat": "マキタ",
         "role": "組立工程設計・電気制御設計",
         "loc": "愛知",
@@ -170,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "国内主力工場と海外工場の生産性・品質に、構想から成果まで一貫して関われます。"
       },
       {
-        "logo": "assets/img/jobs/10730.png",
+        "logo": "assets/img/jobs/job-10730.png",
         "cat": "ダイハツ工業",
         "role": "次世代車両の工法開発（接合・プレス）",
         "loc": "大阪",
@@ -183,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "残業は月20〜30時間。軽量化に向けた上流の工法開発に挑戦できます。"
       },
       {
-        "logo": "assets/img/jobs/11255.png",
+        "logo": "assets/img/jobs/job-11255.png",
         "cat": "小糸製作所",
         "role": "生産技術",
         "loc": "静岡",
@@ -198,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ],
     "skill": [
       {
-        "logo": "assets/img/jobs/11365.png",
+        "logo": "assets/img/jobs/job-11365.png",
         "cat": "神戸製鋼所",
         "role": "生産技術開発・プロセス改善",
         "loc": "兵庫",
@@ -211,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "要素技術・生産改善・生産開発・海外拠点などのキャリア例を提示しています。"
       },
       {
-        "logo": "assets/img/jobs/11174.png",
+        "logo": "assets/img/jobs/job-11174.png",
         "cat": "住友電装",
         "role": "自動車用端子の製造設備・金型開発",
         "loc": "三重",
@@ -224,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "設備・金型の開発を担当。生産技術や設備保全の経験は歓迎されます。"
       },
       {
-        "logo": "assets/img/jobs/11177.png",
+        "logo": "assets/img/jobs/job-11177.png",
         "cat": "IHI",
         "role": "航空・ロケットエンジン部品の特殊工程開発",
         "loc": "神奈川",
@@ -237,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "先端材料に触れながら、専門家・リーダーのキャリアや海外技術交流も描けます。"
       },
       {
-        "logo": "assets/img/jobs/11543.png",
+        "logo": "assets/img/jobs/job-11543.png",
         "cat": "日本電子",
         "role": "理科学機器の電気系生産技術",
         "loc": "東京",
@@ -250,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "電気・ソフト・機構を融合した治具や自動化、データ活用で検査品質と効率を高めます。"
       },
       {
-        "logo": "assets/img/jobs/11496.png",
+        "logo": "assets/img/jobs/job-11496.png",
         "cat": "MARUWA",
         "role": "設備技術（改善・保守・新規導入）",
         "loc": "岐阜",
@@ -265,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ],
     "dx": [
       {
-        "logo": "assets/img/jobs/10885.png",
+        "logo": "assets/img/jobs/job-10885.png",
         "cat": "オムロン",
         "role": "製造DXのソリューションアーキテクト",
         "loc": "京都/東京",
@@ -278,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "生産技術・工場SEの経験を、他社にも提供する製造DXソリューションへ活かせます。"
       },
       {
-        "logo": "assets/img/jobs/11289.png",
+        "logo": "assets/img/jobs/job-11289.png",
         "cat": "日立ハイテク",
         "role": "生産技術DXエンジニア（ロボット）",
         "loc": "東京/茨城",
@@ -291,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "リーダー・管理職、研究開発、生産技術など、本人の希望に応じたキャリア設計が可能です。"
       },
       {
-        "logo": "assets/img/jobs/11546.png",
+        "logo": "assets/img/jobs/job-11546.png",
         "cat": "積水化学工業",
         "role": "工場DXを推進する設備設計",
         "loc": "滋賀",
@@ -304,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "生産ライン・レイアウト設計に、データ活用を掛け合わせます。階層別・グローバル研修あり。"
       },
       {
-        "logo": "assets/img/jobs/11138.png",
+        "logo": "assets/img/jobs/job-11138.png",
         "cat": "コニカミノルタ",
         "role": "化学プロセスの自動化・安全を支える生産技術",
         "loc": "東京",
@@ -317,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "note": "構想・設計から導入・立上げ・改善まで一貫して関われます。"
       },
       {
-        "logo": "assets/img/jobs/11356.png",
+        "logo": "assets/img/jobs/job-11356.png",
         "cat": "ダイキン工業",
         "role": "生産技術（プリント基板生産工場革新）",
         "loc": "滋賀",
@@ -387,15 +325,28 @@ document.addEventListener("DOMContentLoaded", function () {
   ].filter(Boolean);
   var slider = document.getElementById("jobsGrid");
   if (slider) {
+    var ICON_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg>';
+    var ICON_CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
+    var ICON_BLD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5.5L13 3v18M13 8.5l7 2V21M3 21h18"/></svg>';
+    var ICON_CROWN = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/></svg>';
+    var INDUSTRY = { "椿本チエイン": "産業機械", "クボタ": "産業機械", "日立ハイテク": "ハイテク", "神戸製鋼所": "素材・機械", "オムロン": "制御機器", "マキタ": "電動工具", "ダイハツ工業": "自動車", "積水化学工業": "素材・化学", "IHI": "重工", "ダイキン工業": "空調", "日本電子": "理科学機器", "コニカミノルタ": "情報機器" };
     slider.innerHTML = ORDER.map(function (j) {
-      var head = j.logo
-        ? '<div class="job-head"><span class="job-logo"><img src="' + j.logo + '" alt="' + j.cat + '" loading="lazy"></span><small>' + j.cat + '</small></div>'
-        : '<div class="job-head"><span class="job-logo job-logo--lock" aria-hidden="true">非公開</span><small>' + j.cat + '</small></div>';
-      return '<article class="job' + (j.logo ? '' : ' job--secret') + '">'
+      var secret = !j.logo;
+      var head = secret
+        ? '<div class="job-head"><span class="job-logo job-logo--lock" aria-hidden="true">' + ICON_CROWN + '非公開求人</span><small class="job-industry">プライム上場</small></div>'
+        : '<div class="job-head"><span class="job-logo"><img src="' + j.logo + '" alt="' + j.cat + '" loading="lazy"></span>' + (INDUSTRY[j.cat] ? '<small class="job-industry">' + INDUSTRY[j.cat] + '</small>' : '') + '</div>';
+      var kicker = secret ? '<p class="job-kicker">' + j.cat.replace("（非公開）", "") + '</p>' : '';
+      var salary = j.pay
+        ? '<p class="salary"><span class="num">' + j.pay + '</span><span class="unit">万円</span></p>'
+        : '<p class="salary salary--secret"><span class="job-undisclosed">年収・条件は面談でご案内</span></p>';
+      var chips = (j.loc ? '<span>' + ICON_PIN + j.loc + '</span>' : '')
+        + j.tags.slice(0, 2).map(function (t, i) { return "<span>" + (i === 0 ? ICON_CAL : (j.loc ? ICON_BLD : "")) + t + "</span>"; }).join("");
+      return '<article class="job' + (secret ? ' job--secret' : '') + '">'
         + head
+        + kicker
         + '<h3>' + j.role + '</h3>'
-        + '<p class="salary"><span class="num">' + j.pay + '</span><span class="unit">万円</span><span class="job-loc">' + j.loc + '</span></p>'
-        + '<div class="job-tags">' + j.tags.slice(0, 2).map(function (t) { return "<span>" + t + "</span>"; }).join("") + '</div>'
+        + salary
+        + '<div class="job-tags">' + chips + '</div>'
         + '<p>' + j.note + '</p>'
         + '</article>';
     }).join("");
@@ -578,5 +529,13 @@ document.addEventListener("DOMContentLoaded", function () {
       entries.forEach(function (en) { formInView = en.isIntersecting; });
       updateStickyBar();
     }).observe(formSection);
+  }
+  /* 申込フォーム: プライバシーポリシーに同意(チェック)しないと送信できない */
+  var agreeBox = document.querySelector(".closing-agree input");
+  var submitBtn = document.querySelector(".closing-submit");
+  if (agreeBox && submitBtn) {
+    var syncSubmit = function () { submitBtn.disabled = !agreeBox.checked; };
+    agreeBox.addEventListener("change", syncSubmit);
+    syncSubmit();
   }
 });
