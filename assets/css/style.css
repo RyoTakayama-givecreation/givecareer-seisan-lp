@@ -2405,3 +2405,10 @@
         right: calc(-185px + clamp(32px, 5vw, 76px) + min(62px, 4.54vw) + min(60px, 4.3vw));
       }
     }
+
+    /* ============ PC FV：全体を左へスライド（transformのみ。高さ・折り返しは変えない） ============ */
+    @media (min-width: 1081px) {
+      .lp-white01 .hero-copy { transform: translateX(calc(-1 * clamp(0px, (100vw - 1100px) * .13, 43px))); }
+      .lp-white01 .hero-visual .hero-person { transform: translateX(calc(-1 * clamp(0px, (100vw - 1100px) * .15, 50px))); }
+      .lp-white01 .hero-values > li { transform: translateX(calc(-1 * clamp(0px, (100vw - 1100px) * .14, 48px))); }
+    }
